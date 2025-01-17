@@ -18,11 +18,12 @@ class SearchViewController: UIViewController {
     }
     
     
-    func searchMovies(keywords: String) {
+    func searchMovies(keyword: String) {
         let session = URLSession.shared
 
-        let movieURL = URL(string: "http://www.omdbapi.com/?i=tt3896198&apikey=bf06009d")!
-        
+        let movieURL = URL(string: "http://www.omdbapi.com/?s=\(keyword)&apikey=bf06009d")!
+        //let movieURL = URL(string: "http://www.omdbapi.com/?s=Ghost&apikey=bf06009d")!
+
         let dataTask = session.dataTask(with: movieURL) { data, response, error in
             if let e = error {
                 print("Error! \(e)")
@@ -32,6 +33,27 @@ class SearchViewController: UIViewController {
                     if let jsonObj = try? JSONSerialization.jsonObject(with: d, options: .fragmentsAllowed) as! NSDictionary {
                         //print("working.")
                         print(jsonObj)
+                        //print(jsonObj.value(forKeyPath: "Title"))
+                        //print(jsonObj.allValues)
+                        print(response.)
+                        
+                        if let theTitle = jsonObj.value(forKey: "Title") {
+                            print(theTitle)
+                            
+                        } else {
+                            DispatchQueue.main.async {
+                                print("That movie does not exist!")
+                            }
+                            
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         
                         /*if let theTitle = jsonObj.value(forKey: "Title") {
                             if let theYear = jsonObj.value(forKey: "Year") {
@@ -60,7 +82,7 @@ class SearchViewController: UIViewController {
     
     
     @IBAction func submitSearchAction(_ sender: UIButton) {
-        searchMovies(keywords: searchOutlet.text!)
+        searchMovies(keyword: searchOutlet.text!)
     }
     
     
